@@ -3,7 +3,7 @@ import { Fragment, useEffect, useState } from "react";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, TableSortLabel,
         CircularProgress } from '@material-ui/core';
 
-import { Edit, Delete } from '@material-ui/icons';
+import { Edit, Delete, AccountCircle } from '@material-ui/icons';
 
 import { headColumns, stableSort, getComparator } from './tableHelper';
 
@@ -112,9 +112,9 @@ const EmployeeDataTable = ({ employees, filterParams }) => {
                                             tabIndex={-1}
                                             key={row.full_name}
                                         >
-                                        <TableCell align="left">{row.id}</TableCell>
+                                        <TableCell align="left">{row.employee_id}</TableCell>
                                             <TableCell className={`nameCell`} align="left">
-                                                <img src={row.profile_pic} alt='Profile Picture of Employee'/>
+                                                {row.profile_pic ? <img src={row.profile_pic} alt='Profile Picture of Employee'/> : <AccountCircle/>}
                                                 {row.full_name}
                                             </TableCell>
                                             <TableCell align="center">{row.login_id}</TableCell>

@@ -21,28 +21,23 @@ const DashboardContent = () => {
     const [filter, setFilter] = useState({minimumSalary : '', maximumSalary : ''});
 
     const fetchEmployeesList = async () => {
-        // callApiHelper('employees', {}, 'GET').then(response => {
-        //   if(response.status === 200) {
-        //     setEmployees({ ...employees, data : response.data});
-        //   } else {
-        //     setEmployees({
-        //         ...employees,
-        //         error : true,
-        //         errorMessage : 'No data found !!'
-        //     })
-        //   }
-        // }).catch(ex => {
-        //     setEmployees({
-        //         ...employees,
-        //         error : true,
-        //         errorMessage : 'Server Error, Please Try Again Later !!'
-        //     })
-        // });
-
-        setEmployees({
-            ...employees,
-            data : mockEmployees
-        })
+        callApiHelper('get_employees', {}, 'GET').then(response => {
+          if(response.status === 200) {
+            setEmployees({ ...employees, data : response.data});
+          } else {
+            setEmployees({
+                ...employees,
+                error : true,
+                errorMessage : 'No data found !!'
+            })
+          }
+        }).catch(ex => {
+            setEmployees({
+                ...employees,
+                error : true,
+                errorMessage : 'Server Error, Please Try Again Later !!'
+            })
+        });
     };
 
     useEffect(() => {

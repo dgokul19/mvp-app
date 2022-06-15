@@ -8,7 +8,7 @@ export const callApiHelper = async (
     requestBody,
 ) => {
     const axiosInstance = Axios.create({
-        baseURL: 'https://nphc-hr.free.beeceptor.com',
+        baseURL: 'http://localhost:8080',
     });
     switch (requestMethod) {
         case 'GET':
