@@ -1,17 +1,25 @@
 import { Fragment, useEffect, useState } from "react";
 
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, TableSortLabel,
+import { Paper, Table, TableBody, TableCell, TableContainer, TableRow, TablePagination, TableSortLabel,
         CircularProgress } from '@material-ui/core';
 
 import { Edit, Delete, AccountCircle } from '@material-ui/icons';
 
-import { headColumns, stableSort, getComparator } from './tableHelper';
+import { stableSort, getComparator } from './tableHelper';
+
+import CustomTableHead from './CustomTableHead';
+import EmployeeModal from '../Modal/EmployeeModal';
 
 import { useStyles } from './tableStyle';
 
 import './table.scss';
 
-const EmployeeDataTable = ({ employees, filterParams }) => {
+const modalState = {
+    openState : false,
+    data : {}
+};
+
+const EmployeeDataTable = ({ employees, filterParams, fetchList }) => {
     const classes = useStyles();
 
     const [employeeData, setEmployeeData] = useState([]);
@@ -19,6 +27,7 @@ const EmployeeDataTable = ({ employees, filterParams }) => {
     const [orderBy, setOrderBy] = useState('calories');
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [ modal, setModal ] = useState({...modalState});
 
     useEffect(() => {
         let data = [];
@@ -55,40 +64,16 @@ const EmployeeDataTable = ({ employees, filterParams }) => {
         setPage(0);
     };
 
-    const CustomTableHead = (props) => {
-        const { classes, order, orderBy, onRequestSort } = props;
-
-        const createSortHandler = (property) => (event) => {
-            onRequestSort(event, property);
-        };
-
-        return (
-            <TableHead>
-                <TableRow>
-                    {headColumns.map((headCell) => (
-                        <TableCell
-                            key={headCell.id}
-                            align={headCell.numeric ? 'center' : 'left'}
-                            sortDirection={orderBy === headCell.id ? order : false}
-                        >
-                            <TableSortLabel
-                                active={orderBy === headCell.id}
-                                direction={orderBy === headCell.id ? order : 'asc'}
-                                onClick={createSortHandler(headCell.id)}
-                            >
-                                {headCell.label}
-                                {orderBy === headCell.id ? (
-                                    <span className={classes.visuallyHidden}>
-                                        {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                                    </span>
-                                ) : null}
-                            </TableSortLabel>
-                        </TableCell>
-                    ))}
-                </TableRow>
-            </TableHead>
-        );
-    };
+    const editEmployeeDetails = ( row ) => {
+        setModal({
+            openState : true,
+            data : row
+        })
+    }
+    const resetModal = ( ) => {
+        setModal({data : {}, modalState : false});
+        fetchList();
+    }
 
     const loadContent = () => {
         if (employees?.data?.length) {
@@ -120,7 +105,7 @@ const EmployeeDataTable = ({ employees, filterParams }) => {
                                             <TableCell align="center">{row.login_id}</TableCell>
                                             <TableCell align="center">{row.salary}</TableCell>
                                             <TableCell align="center" className="actionCell">
-                                                <Edit />
+                                                <Edit onClick={() => editEmployeeDetails(row)}/>
                                                 <Delete />
                                             </TableCell>
                                         </TableRow>
@@ -160,6 +145,7 @@ const EmployeeDataTable = ({ employees, filterParams }) => {
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
+           {modal.openState && <EmployeeModal openModal={modal.openState} modalData={modal.data} handleModal={resetModal}/>}
         </Fragment>
     )
 };

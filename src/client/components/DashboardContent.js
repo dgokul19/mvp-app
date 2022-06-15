@@ -5,8 +5,6 @@ import EmployeeDataTable from './DataTable/EmployeeDataTable';
 
 import callApiHelper from '../Util/apiHelper';
 
-import { mockEmployees } from './mockData';
-
 import './Style/dashboard.scss';
 
 const initialState = {
@@ -88,7 +86,7 @@ const DashboardContent = () => {
                         }}
                     />
                 </div>
-                <EmployeeDataTable employees={employees} filterParams={filter}/>
+                <EmployeeDataTable employees={employees} filterParams={filter} fetchList={() => fetchEmployeesList()}/>
             </div>
         </Fragment>
     );

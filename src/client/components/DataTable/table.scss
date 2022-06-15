@@ -6,6 +6,9 @@
     .actionCell{
         display: flex;
         justify-content: space-around;
+        svg {
+            cursor: pointer;
+        }
     }
     .nameCell {
         display: flex;
