@@ -8,10 +8,10 @@
     height: 100%;
     background-color: var(--theme-background-primary);
     display: flex;
-    .navigationBar{
-        padding: 2rem;
-    }
 }
 .iconColorPrimary {
     color: var(--theme-background-primary);
+}
+.title {
+    font-size: 2rem;
 }
