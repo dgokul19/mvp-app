@@ -113,7 +113,10 @@ const EmployeeDataTable = ({ employees, filterParams }) => {
                                             key={row.full_name}
                                         >
                                         <TableCell align="left">{row.id}</TableCell>
-                                            <TableCell align="left">{row.full_name}</TableCell>
+                                            <TableCell className={`nameCell`} align="left">
+                                                <img src={row.profile_pic} alt='Profile Picture of Employee'/>
+                                                {row.full_name}
+                                            </TableCell>
                                             <TableCell align="center">{row.login_id}</TableCell>
                                             <TableCell align="center">{row.salary}</TableCell>
                                             <TableCell align="center" className="actionCell">
