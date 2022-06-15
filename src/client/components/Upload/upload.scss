@@ -1,0 +1,21 @@
+.uploadContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .uploadBox {
+        min-width: 200px;
+        max-width: 400px;
+        width: 40%;
+        height: 220px;
+        border-radius: 4px;
+        border:2px dashed var(--theme-background-primary);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        svg {
+            font-size: 5rem;
+            color: var(--theme-background-primary);
+        }
+    }
+}

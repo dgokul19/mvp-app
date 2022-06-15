@@ -1,9 +1,12 @@
 import './App.css';
+import './client/styles/common.scss';
+
+import Dashboard from './client/components/Dashboard';
 
 function App() {
     return (
       <div className="wrapperContainer">
-          <h1>Hello World</h1>
+          <Dashboard/>
       </div>
     );
 }
