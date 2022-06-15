@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, TableSortLabel,
         CircularProgress } from '@material-ui/core';
@@ -11,13 +11,34 @@ import { useStyles } from './tableStyle';
 
 import './table.scss';
 
-const EmployeeDataTable = ({ employees }) => {
+const EmployeeDataTable = ({ employees, filterParams }) => {
     const classes = useStyles();
 
+    const [employeeData, setEmployeeData] = useState([]);
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('calories');
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+
+    useEffect(() => {
+        let data = [];
+        if(!employeeData.length && employees?.data?.length){
+            data = [ ...employees.data];
+            setEmployeeData(data);
+        }
+        if(parseFloat(filterParams.minimumSalary) >= 0 && parseFloat(filterParams.maximumSalary) >= 0) {
+            data = [ ...employees.data].filter(value => {
+                if(value.salary >= parseFloat(filterParams.minimumSalary) && value.salary <=  parseFloat(filterParams.maximumSalary)) {
+                    return true;
+                }
+            });            
+            setEmployeeData(data.length ? data : []);
+        } else{
+            data = [ ...employees.data];
+            setEmployeeData(data);
+        }
+    },[filterParams, employees]);
+
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -34,7 +55,7 @@ const EmployeeDataTable = ({ employees }) => {
         setPage(0);
     };
 
-    function CustomTableHead(props) {
+    const CustomTableHead = (props) => {
         const { classes, order, orderBy, onRequestSort } = props;
 
         const createSortHandler = (property) => (event) => {
@@ -67,10 +88,10 @@ const EmployeeDataTable = ({ employees }) => {
                 </TableRow>
             </TableHead>
         );
-    }
+    };
 
     const loadContent = () => {
-        if (employees?.length) {
+        if (employees?.data?.length) {
             return (
                 <TableContainer component={Paper}>
                     <Table className={`dataTableEmployee`} aria-label="simple table">
@@ -79,17 +100,17 @@ const EmployeeDataTable = ({ employees }) => {
                             order={order}
                             orderBy={orderBy}
                             onRequestSort={handleRequestSort}
-                            rowCount={employees.length}
+                            rowCount={employeeData.length}
                         />
                         <TableBody>
-                            {stableSort(employees.data, getComparator(order, orderBy))
+                            {stableSort(employeeData, getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map(row => {
                                     return (
                                         <TableRow
                                             hover
                                             tabIndex={-1}
-                                            key={row.name}
+                                            key={row.full_name}
                                         >
                                         <TableCell align="left">{row.id}</TableCell>
                                             <TableCell align="left">{row.full_name}</TableCell>
@@ -107,7 +128,6 @@ const EmployeeDataTable = ({ employees }) => {
                 </TableContainer>
             )
         } else {
-            console.log({employees});
             if(employees.error) {
                 return <Fragment>
                     <div className="loaderTable">

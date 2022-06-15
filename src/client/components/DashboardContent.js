@@ -5,6 +5,8 @@ import EmployeeDataTable from './DataTable/EmployeeDataTable';
 
 import callApiHelper from '../Util/apiHelper';
 
+import { mockEmployees } from './mockData';
+
 import './Style/dashboard.scss';
 
 const initialState = {
@@ -16,31 +18,44 @@ const initialState = {
 const DashboardContent = () => {
 
     const [employees, setEmployees] = useState({...initialState});
-    const [filter, setFilter] = useState({minumumSalary : '', maximumSalary : ''});
+    const [filter, setFilter] = useState({minimumSalary : '', maximumSalary : ''});
 
     const fetchEmployeesList = async () => {
-        callApiHelper('employees', {}, 'GET').then(response => {
-          if(response.status === 200) {
-            setEmployees(response.data);
-          } else {
-            setEmployees({
-                ...employees,
-                error : true,
-                errorMessage : 'No data found !!'
-            })
-          }
-        }).catch(ex => {
-            setEmployees({
-                ...employees,
-                error : true,
-                errorMessage : 'Server Error, Please Try Again Later !!'
-            })
-        });
+        // callApiHelper('employees', {}, 'GET').then(response => {
+        //   if(response.status === 200) {
+        //     setEmployees({ ...employees, data : response.data});
+        //   } else {
+        //     setEmployees({
+        //         ...employees,
+        //         error : true,
+        //         errorMessage : 'No data found !!'
+        //     })
+        //   }
+        // }).catch(ex => {
+        //     setEmployees({
+        //         ...employees,
+        //         error : true,
+        //         errorMessage : 'Server Error, Please Try Again Later !!'
+        //     })
+        // });
+
+        setEmployees({
+            ...employees,
+            data : mockEmployees
+        })
     };
 
     useEffect(() => {
         fetchEmployeesList()
     },[]);
+
+    const handleSalryRange = (e) => {
+        const { name, value } = e.target;
+        setFilter({
+            ...filter,
+            [name] : value
+        })
+    };
 
     return (
         <Fragment>
@@ -51,7 +66,9 @@ const DashboardContent = () => {
                         className={`filterField`}
                         variant="outlined"
                         label="Minimum Salary"
-                        value={filter.minumumSalary}
+                        value={filter.minimumSalary}
+                        onChange={handleSalryRange}
+                        name={`minimumSalary`}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -63,6 +80,8 @@ const DashboardContent = () => {
                     <TextField
                         className={`filterField`}
                         variant="outlined"
+                        name={`maximumSalary`}
+                        onChange={handleSalryRange}
                         label="Maximum Salary"
                         value={filter.maximumSalary}
                         InputProps={{
@@ -74,7 +93,7 @@ const DashboardContent = () => {
                         }}
                     />
                 </div>
-                <EmployeeDataTable employees={employees}/>
+                <EmployeeDataTable employees={employees} filterParams={filter}/>
             </div>
         </Fragment>
     );
