@@ -3,7 +3,7 @@ import clsx from 'clsx';
 
 import { useTheme } from '@material-ui/core/styles';
 import { Drawer, AppBar, Toolbar, Divider, List, ListItem, IconButton, ListItemText } from '@material-ui/core';
-import { Menu as MenuIcon, ChevronLeft, ChevronRight } from '@material-ui/icons';
+import { Menu as MenuIcon, ChevronLeft, ChevronRight, AccountCircle } from '@material-ui/icons';
 
 import DashboardContent from './DashboardContent';
 
@@ -65,7 +65,7 @@ const Dashboard = () => {
                 <Divider />
                 <div className="userProfile">
                     <div className="userIcon">
-
+                        <AccountCircle className="userImage"/>
                     </div>
                     <h4>Gokulan Dhakshinamoorthy Balasubramaniyan </h4>
                 </div>

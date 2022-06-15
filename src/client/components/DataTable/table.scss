@@ -3,4 +3,8 @@
     .MuiTableCell-head {
         font-weight: bold;
     }
+    .actionCell{
+        display: flex;
+        justify-content: space-around;
+    }
 }
