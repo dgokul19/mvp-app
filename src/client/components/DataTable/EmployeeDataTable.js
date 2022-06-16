@@ -111,7 +111,7 @@ const EmployeeDataTable = ({ employees, filterParams, fetchList }) => {
                                         >
                                             <TableCell align="left">{row.employee_id}</TableCell>
                                             <TableCell className={`nameCell`} align="left">
-                                                {row.profile_pic ? <img src={row.profile_pic} alt='Profile Picture of Employee' /> : <AccountCircle />}
+                                                <AccountCircle />
                                                 {row.full_name}
                                             </TableCell>
                                             <TableCell align="center">{row.login_id}</TableCell>
@@ -153,7 +153,7 @@ const EmployeeDataTable = ({ employees, filterParams, fetchList }) => {
     return (
         <Fragment>
             {loadContent()}
-            {employees?.data?.length && <TablePagination
+            {employees?.data?.length > 0 && <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
                 count={employees?.data?.length}

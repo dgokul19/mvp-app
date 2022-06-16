@@ -1,12 +1,11 @@
 const csv = require('csvtojson')
 const path = require('path');
 const Employees = require('../model/employee');
+const mockEmployees = require('../mock/mockEmployees.json');
 
-const filePath = path.join(__dirname, '../../../src/assets/sample.csv');
 
 const updateEmployee = (req, callback) => {
     const { employee_id } = req.params;
-    console.log({ employee_id });
     if (!employee_id) return callback(`No employee id found !!`)
     const { full_name, login_id, salary } = req.body;
     const options = {
@@ -33,9 +32,14 @@ const deleteEmployee = (req, callback) => {
 const getEmployeeList = (callback) => {
     Employees.find({}).exec((err, employeeList) => {
         if (err) return callback(err);
-        console.log({ employeeList });
-
-        callback(null, employeeList)
+        if(employeeList.length === 0) {
+            Employees.insertMany(mockEmployees.data, (error, docs) => {
+                if(error) return callback(error);
+                 callback(null, mockEmployees.data);
+            });
+        } else{
+            callback(null, employeeList)
+        }
     });
 };
 

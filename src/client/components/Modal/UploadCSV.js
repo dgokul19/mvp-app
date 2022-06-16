@@ -110,7 +110,7 @@ const UploadCSVModal = ({ openModal, handleModal }) => {
 
                         {upload.isuploading && (
                             <div className='uploadedContent'>
-                                {upload.data.length === 1 &&  (
+                                {upload.data.length === 0 &&  (
                                     <div className='loader_uploading'>
                                         <CircularProgress />
                                         Uploading...
