@@ -2,24 +2,13 @@ import { Fragment, useEffect, useState } from 'react';
 
 import { Modal, Backdrop, Fade, TextField, Button } from '@material-ui/core';
 import { HighlightOff } from '@material-ui/icons';
-import { makeStyles } from '@material-ui/core/styles';
 
 import callApiHelper from '../../Util/apiHelper';
 
+import { useStyles } from './modalStyle';
+
 import '../Style/modal.scss';
 
-const useStyles = makeStyles((theme) => ({
-    modal: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    paper: {
-        backgroundColor: theme.palette.background.paper,
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
-    },
-}));
 
 const EmployeeModal = ({ openModal, handleModal, modalData }) => {
     const [formState, setFormState] = useState({});

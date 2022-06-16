@@ -1,7 +1,9 @@
 import { Fragment, useEffect, useState } from 'react';
-import { TextField, InputAdornment } from '@material-ui/core';
+import { TextField, InputAdornment, Button } from '@material-ui/core';
 import { Search } from '@material-ui/icons';
+
 import EmployeeDataTable from './DataTable/EmployeeDataTable';
+import UploadCSV from './Modal/UploadCSV';
 
 import callApiHelper from '../Util/apiHelper';
 import { defaultEmployeeState } from '../Util/constants';
@@ -12,6 +14,8 @@ const DashboardContent = () => {
 
     const [employees, setEmployees] = useState({...defaultEmployeeState});
     const [filter, setFilter] = useState({minimumSalary : '', maximumSalary : ''});
+
+    const [modal, setModal] = useState(false);
 
     const fetchEmployeesList = async () => {
         setEmployees({
@@ -43,6 +47,13 @@ const DashboardContent = () => {
         fetchEmployeesList();
     },[]);
 
+    const handleUploadModal = (inputType) => {
+        if(!inputType) {
+            fetchEmployeesList();
+        }
+        setModal(inputType);
+    };
+
     const handleSalryRange = (e) => {
         const { name, value } = e.target;
         setFilter({
@@ -56,38 +67,43 @@ const DashboardContent = () => {
             <div className='dashBoardContainer'>
                 <h3 className='title'> Employees </h3>
                 <div className='filterSection'>
-                    <TextField
-                        className={`filterField`}
-                        variant="outlined"
-                        name={`maximumSalary`}
-                        onChange={handleSalryRange}
-                        label="Maximum Salary"
-                        value={filter.maximumSalary}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <Search />
-                                </InputAdornment>
-                            ),
-                        }}
-                    />
-                    <TextField
-                        className={`filterField`}
-                        variant="outlined"
-                        label="Minimum Salary"
-                        value={filter.minimumSalary}
-                        onChange={handleSalryRange}
-                        name={`minimumSalary`}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <Search />
-                                </InputAdornment>
-                            ),
-                        }}
-                    />
+                    <Button variant="contained" onClick={() => handleUploadModal(true)}>Upload Employee CSV</Button>
+
+                    <div className='filterRange'>
+                        <TextField
+                            className={`filterField`}
+                            variant="outlined"
+                            name={`maximumSalary`}
+                            onChange={handleSalryRange}
+                            label="Maximum Salary"
+                            value={filter.maximumSalary}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <Search />
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                        <TextField
+                            className={`filterField`}
+                            variant="outlined"
+                            label="Minimum Salary"
+                            value={filter.minimumSalary}
+                            onChange={handleSalryRange}
+                            name={`minimumSalary`}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <Search />
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </div>
                 </div>
                 <EmployeeDataTable employees={employees} filterParams={filter} fetchList={() => fetchEmployeesList()}/>
+                {modal && <UploadCSV openModal={modal} handleModal={() => handleUploadModal(false)}/>}
             </div>
         </Fragment>
     );

@@ -53,7 +53,7 @@ const validateCsvFiles = async (csvSource, fileDetails) => {
     });
 
     if (count > 2) {
-        response.error = `Invalid file ${fileDetails.originalname}, Please upload the corrected file`;
+        response.error = `Invalid file, Please upload the valid file`;
         return response;
     }
 
@@ -75,7 +75,7 @@ const validateCsvFiles = async (csvSource, fileDetails) => {
     await Employees.bulkWrite(bulkOps)
         .then(bulkWriteOpResult => {
             console.log('Bul Update Success', bulkWriteOpResult);
-            response.message = `CSV updated Successfully for ${fileDetails.originalname}`;
+            response.message = `CSV updated Successfully`;
         }).catch(error => {
             console.log('Bull Update Failed', error);
             response.error = `Error in uploading ${fileDetails.originalname}: => error is ${error}`;

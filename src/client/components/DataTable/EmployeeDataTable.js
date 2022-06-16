@@ -1,9 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 
-import {
-    Paper, Table, TableBody, TableCell, TableContainer, TableRow, TablePagination, TableSortLabel,
-    CircularProgress
-} from '@material-ui/core';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableRow, TablePagination,CircularProgress } from '@material-ui/core';
 
 import { Edit, Delete, AccountCircle } from '@material-ui/icons';
 

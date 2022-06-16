@@ -10,6 +10,14 @@ export const callApiHelper = async (
     const axiosInstance = Axios.create({
         baseURL: 'http://localhost:8080',
     });
+
+     axiosInstance.interceptors.request.use((request) => {
+        request.headers = {
+        'Content-Type': requestMethod !== 'POST' ? 'application/json' : "multipart/form-data",
+        accept: 'application/json',
+    };
+        return request;
+    });
     switch (requestMethod) {
         case 'GET':
             return axiosInstance

@@ -10,6 +10,11 @@ export const modalState = {
     modalType : ''
 };
 
+export const initialUpload = {
+    isuploading : false,
+    data : []
+};
+
 export const defaultEmployeeState = {
     data : [],
     isFetching : false,
