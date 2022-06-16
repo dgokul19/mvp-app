@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 import { Modal, Backdrop, Fade, TextField, Button } from '@material-ui/core';
 import { HighlightOff } from '@material-ui/icons';
@@ -6,8 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import callApiHelper from '../../Util/apiHelper';
 
-
-import './modal.scss';
+import '../Style/modal.scss';
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -24,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 const EmployeeModal = ({ openModal, handleModal, modalData }) => {
     const [formState, setFormState] = useState({});
+
     const classes = useStyles();
 
     const handleChange = (e) => {
@@ -42,15 +42,15 @@ const EmployeeModal = ({ openModal, handleModal, modalData }) => {
             login_id: formState.login_id,
         };
         callApiHelper(`update_employee/${formState.employee_id}`, {}, 'PUT', params).then(response => {
-            if(response.status === 204){
-                alert(`Employee Id ${formState.employee_id} updated successfully !!` );
+            if (response.status === 204) {
+                alert(`Employee Id ${formState.employee_id} updated successfully !!`);
             } else {
-                alert(`Cannot update the details successfully !!`)
+                alert(`Cannot update the details successfully !!`);
             }
             handleModal();
         }).catch(ex => {
             alert(`Something Occured, Try again later !!`);
-             handleModal();
+            handleModal();
         })
     };
 
@@ -60,56 +60,58 @@ const EmployeeModal = ({ openModal, handleModal, modalData }) => {
         }
     }, []);
 
-    console.log(formState);
     return (
-        <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            className={classes.modal}
-            open={openModal}
-            onClose={handleModal}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-                timeout: 500,
-            }}
-        >
-            <Fade in={openModal}>
-                <div className={`${classes.paper} modalContainer`}>
-                    <div className='title_modal'>
-                        <h2>Edit employee </h2>
-                        <HighlightOff onClick={handleModal} />
+        <Fragment>
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                className={classes.modal}
+                open={openModal}
+                onClose={handleModal}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
+            >
+                <Fade in={openModal}>
+                    <div className={`${classes.paper} modalContainer`}>
+                        <div className='title_modal'>
+                            <h2>Edit employee </h2>
+                            <HighlightOff onClick={handleModal} />
+                        </div>
+
+                        <div className='modalContent'>
+                            <form noValidate autoComplete="off">
+                                <TextField className={`textField`}
+                                    variant="outlined"
+                                    value={formState.employee_id}
+                                    disabled />
+
+                                <TextField className={`textField`}
+                                    label={`Full Name`}
+                                    variant="outlined" onChange={handleChange}
+                                    value={formState.full_name} name={`full_name`} />
+
+                                <TextField className={`textField`} label={`Login Id`}
+                                    variant="outlined" onChange={handleChange}
+                                    value={formState.login_id} name={`login_id`} />
+
+                                <TextField className={`textField`} label={`Salary`}
+                                    variant="outlined" onChange={handleChange}
+                                    value={formState.salary} name={`salary`} />
+
+                                <Button variant="contained" color="primary" onClick={submitHandler}>
+                                    Update
+                                </Button>
+                            </form>
+
+                        </div>
                     </div>
+                </Fade>
+            </Modal>
+        </Fragment>
 
-                    <div className='modalContent'>
-                        <form noValidate autoComplete="off">
-                            <TextField className={`textField`}
-                                variant="outlined"
-                                value={formState.employee_id}
-                                disabled />
-
-                            <TextField className={`textField`}
-                                label={`Full Name`}
-                                variant="outlined" onChange={handleChange}
-                                value={formState.full_name} name={`full_name`} />
-
-                            <TextField className={`textField`} label={`Login Id`}
-                                variant="outlined" onChange={handleChange}
-                                value={formState.login_id} name={`login_id`} />
-
-                            <TextField className={`textField`} label={`Salary`}
-                                variant="outlined" onChange={handleChange}
-                                value={formState.salary} name={`salary`} />
-
-                            <Button variant="contained" color="primary" onClick={submitHandler}>
-                                Update
-                            </Button>
-                        </form>
-
-                    </div>
-                </div>
-            </Fade>
-        </Modal>
     );
 };
 

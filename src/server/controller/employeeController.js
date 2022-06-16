@@ -10,11 +10,21 @@ const updateEmployee = (req, callback) => {
         login_id,
         salary,
     };
-    Employees.findOneAndUpdate({ employee_id: employee_id }, options, { upsert: true }, function (err, doc) {
+    Employees.findOneAndUpdate({ employee_id: employee_id }, options, { upsert: true }, function (err, status) {
         if (err) return callback(err);
-        callback(null, doc);
+        callback(null, status);
     });
 };
+
+const deleteEmployee = (req, callback) => {
+    const { employee_id } = req.params;
+    if(!employee_id) return callback(`No employee id found !!`);
+    Employees.remove({ employee_id: employee_id }, function (err, status) {
+        if (err) return callback(err);
+        callback(null, status);
+    });
+};
+
 // Fetched all employee list from table
 const getEmployeeList = (callback) => {
     Employees.find({}).exec((err, employeeList) => {
@@ -25,5 +35,6 @@ const getEmployeeList = (callback) => {
 
 module.exports = {
     updateEmployee: updateEmployee,
+    deleteEmployee: deleteEmployee,
     fetchAllEmployees: getEmployeeList
 } 

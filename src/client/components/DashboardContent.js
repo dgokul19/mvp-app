@@ -4,18 +4,13 @@ import { Search } from '@material-ui/icons';
 import EmployeeDataTable from './DataTable/EmployeeDataTable';
 
 import callApiHelper from '../Util/apiHelper';
+import { defaultEmployeeState } from '../Util/constants';
 
 import './Style/dashboard.scss';
 
-const initialState = {
-    data : [],
-    error : false,
-    errorMessage : ''
-};
-
 const DashboardContent = () => {
 
-    const [employees, setEmployees] = useState({...initialState});
+    const [employees, setEmployees] = useState({...defaultEmployeeState});
     const [filter, setFilter] = useState({minimumSalary : '', maximumSalary : ''});
 
     const fetchEmployeesList = async () => {
@@ -58,10 +53,10 @@ const DashboardContent = () => {
                     <TextField
                         className={`filterField`}
                         variant="outlined"
-                        label="Minimum Salary"
-                        value={filter.minimumSalary}
+                        name={`maximumSalary`}
                         onChange={handleSalryRange}
-                        name={`minimumSalary`}
+                        label="Maximum Salary"
+                        value={filter.maximumSalary}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -73,10 +68,10 @@ const DashboardContent = () => {
                     <TextField
                         className={`filterField`}
                         variant="outlined"
-                        name={`maximumSalary`}
+                        label="Minimum Salary"
+                        value={filter.minimumSalary}
                         onChange={handleSalryRange}
-                        label="Maximum Salary"
-                        value={filter.maximumSalary}
+                        name={`minimumSalary`}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">

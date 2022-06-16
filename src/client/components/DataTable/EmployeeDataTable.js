@@ -9,15 +9,13 @@ import { stableSort, getComparator } from './tableHelper';
 
 import CustomTableHead from './CustomTableHead';
 import EmployeeModal from '../Modal/EmployeeModal';
+import DeleteModal from '../Modal/DeleteModal';
+
+import { modalState } from '../../Util/constants';
 
 import { useStyles } from './tableStyle';
 
 import './table.scss';
-
-const modalState = {
-    openState : false,
-    data : {}
-};
 
 const EmployeeDataTable = ({ employees, filterParams, fetchList }) => {
     const classes = useStyles();
@@ -64,16 +62,17 @@ const EmployeeDataTable = ({ employees, filterParams, fetchList }) => {
         setPage(0);
     };
 
-    const editEmployeeDetails = ( row ) => {
+    const triggerEmployeeModal = ( row,  modalType) => {
         setModal({
             openState : true,
-            data : row
+            data : row,
+            modalType : modalType
         })
-    }
+    };
     const resetModal = ( ) => {
-        setModal({data : {}, modalState : false});
+        setModal({data : {}, modalState : false, modalType : ''});
         fetchList();
-    }
+    };
 
     const loadContent = () => {
         if (employees?.data?.length) {
@@ -105,8 +104,8 @@ const EmployeeDataTable = ({ employees, filterParams, fetchList }) => {
                                             <TableCell align="center">{row.login_id}</TableCell>
                                             <TableCell align="center">{row.salary}</TableCell>
                                             <TableCell align="center" className="actionCell">
-                                                <Edit onClick={() => editEmployeeDetails(row)}/>
-                                                <Delete />
+                                                <Edit onClick={() => triggerEmployeeModal(row, 'edit')}/>
+                                                <Delete onClick={() => triggerEmployeeModal(row, 'delete')}/>
                                             </TableCell>
                                         </TableRow>
                                     );
@@ -145,7 +144,8 @@ const EmployeeDataTable = ({ employees, filterParams, fetchList }) => {
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
-           {modal.openState && <EmployeeModal openModal={modal.openState} modalData={modal.data} handleModal={resetModal}/>}
+           {(modal.openState && modal.modalType === 'edit') && <EmployeeModal openModal={modal.openState} modalData={modal.data} handleModal={resetModal}/>}
+           {(modal.openState && modal.modalType === 'delete') && <DeleteModal openModal={modal.openState} modalData={modal.data} handleModal={resetModal}/>}
         </Fragment>
     )
 };

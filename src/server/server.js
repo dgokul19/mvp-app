@@ -34,5 +34,12 @@ app.put('/update_employee/:employee_id', (req, res) => {
     });
 });
 
+app.delete('/employees/:employee_id', (req, res) => {
+    mainController.deleteEmployee(req, (err, response) => {
+        if(err) return res.send(err);
+        res.status(204).send(response);
+    });
+});
+
 const port = 8080;
 app.listen(port, () => console.log('WM Ops Plan app listening on port ', port));
