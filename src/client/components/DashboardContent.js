@@ -14,12 +14,17 @@ const DashboardContent = () => {
     const [filter, setFilter] = useState({minimumSalary : '', maximumSalary : ''});
 
     const fetchEmployeesList = async () => {
+        setEmployees({
+            ...employees,
+            isFetching : true
+        });
         callApiHelper('get_employees', {}, 'GET').then(response => {
           if(response.status === 200) {
-            setEmployees({ ...employees, data : response.data});
+            setEmployees({ ...employees, isFetchine: false, data : response.data});
           } else {
             setEmployees({
                 ...employees,
+                isFetchine: false,
                 error : true,
                 errorMessage : 'No data found !!'
             })
@@ -27,6 +32,7 @@ const DashboardContent = () => {
         }).catch(ex => {
             setEmployees({
                 ...employees,
+                isFetchine: false,
                 error : true,
                 errorMessage : 'Server Error, Please Try Again Later !!'
             })
@@ -34,7 +40,7 @@ const DashboardContent = () => {
     };
 
     useEffect(() => {
-        fetchEmployeesList()
+        fetchEmployeesList();
     },[]);
 
     const handleSalryRange = (e) => {

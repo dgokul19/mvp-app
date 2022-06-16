@@ -1,7 +1,9 @@
 import { Fragment, useEffect, useState } from "react";
 
-import { Paper, Table, TableBody, TableCell, TableContainer, TableRow, TablePagination, TableSortLabel,
-        CircularProgress } from '@material-ui/core';
+import {
+    Paper, Table, TableBody, TableCell, TableContainer, TableRow, TablePagination, TableSortLabel,
+    CircularProgress
+} from '@material-ui/core';
 
 import { Edit, Delete, AccountCircle } from '@material-ui/icons';
 
@@ -25,26 +27,26 @@ const EmployeeDataTable = ({ employees, filterParams, fetchList }) => {
     const [orderBy, setOrderBy] = useState('calories');
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [ modal, setModal ] = useState({...modalState});
+    const [modal, setModal] = useState({ ...modalState });
 
     useEffect(() => {
         let data = [];
-        if(!employeeData.length && employees?.data?.length){
-            data = [ ...employees.data];
+        if (!employeeData.length && employees?.data?.length) {
+            data = [...employees.data];
             setEmployeeData(data);
         }
-        if(parseFloat(filterParams.minimumSalary) >= 0 && parseFloat(filterParams.maximumSalary) >= 0) {
-            data = [ ...employees.data].filter(value => {
-                if(value.salary >= parseFloat(filterParams.minimumSalary) && value.salary <=  parseFloat(filterParams.maximumSalary)) {
+        if (parseFloat(filterParams.minimumSalary) >= 0 && parseFloat(filterParams.maximumSalary) >= 0) {
+            data = [...employees.data].filter(value => {
+                if (value.salary >= parseFloat(filterParams.minimumSalary) && value.salary <= parseFloat(filterParams.maximumSalary)) {
                     return true;
                 }
-            });            
+            });
             setEmployeeData(data.length ? data : []);
-        } else{
-            data = [ ...employees.data];
+        } else {
+            data = [...employees.data];
             setEmployeeData(data);
         }
-    },[filterParams, employees]);
+    }, [filterParams, employees]);
 
 
     const handleRequestSort = (event, property) => {
@@ -62,20 +64,34 @@ const EmployeeDataTable = ({ employees, filterParams, fetchList }) => {
         setPage(0);
     };
 
-    const triggerEmployeeModal = ( row,  modalType) => {
+    const triggerEmployeeModal = (row, modalType) => {
         setModal({
-            openState : true,
-            data : row,
-            modalType : modalType
+            openState: true,
+            data: row,
+            modalType: modalType
         })
     };
-    const resetModal = ( ) => {
-        setModal({data : {}, modalState : false, modalType : ''});
+    const resetModal = () => {
+        setModal({ data: {}, modalState: false, modalType: '' });
         fetchList();
     };
 
     const loadContent = () => {
-        if (employees?.data?.length) {
+        if (employees.isFetching) {
+            return (
+                <Fragment>
+                    <div className="loaderTable">
+                        <CircularProgress />
+                    </div>
+                </Fragment>
+            )
+        } else if (employees.error) {
+            return <Fragment>
+                <div className="loaderTable">
+                    <h2>{employees.errorMessage}</h2>
+                </div>
+            </Fragment>
+        } else if (employees?.data?.length) {
             return (
                 <TableContainer component={Paper}>
                     <Table className={`dataTableEmployee`} aria-label="simple table">
@@ -96,16 +112,16 @@ const EmployeeDataTable = ({ employees, filterParams, fetchList }) => {
                                             tabIndex={-1}
                                             key={row.full_name}
                                         >
-                                        <TableCell align="left">{row.employee_id}</TableCell>
+                                            <TableCell align="left">{row.employee_id}</TableCell>
                                             <TableCell className={`nameCell`} align="left">
-                                                {row.profile_pic ? <img src={row.profile_pic} alt='Profile Picture of Employee'/> : <AccountCircle/>}
+                                                {row.profile_pic ? <img src={row.profile_pic} alt='Profile Picture of Employee' /> : <AccountCircle />}
                                                 {row.full_name}
                                             </TableCell>
                                             <TableCell align="center">{row.login_id}</TableCell>
                                             <TableCell align="center">{row.salary}</TableCell>
                                             <TableCell align="center" className="actionCell">
-                                                <Edit onClick={() => triggerEmployeeModal(row, 'edit')}/>
-                                                <Delete onClick={() => triggerEmployeeModal(row, 'delete')}/>
+                                                <Edit onClick={() => triggerEmployeeModal(row, 'edit')} />
+                                                <Delete onClick={() => triggerEmployeeModal(row, 'delete')} />
                                             </TableCell>
                                         </TableRow>
                                     );
@@ -115,18 +131,23 @@ const EmployeeDataTable = ({ employees, filterParams, fetchList }) => {
                 </TableContainer>
             )
         } else {
-            if(employees.error) {
-                return <Fragment>
-                    <div className="loaderTable">
-                        <h2>{employees.errorMessage}</h2>   
-                    </div>
-                </Fragment>
-            }
             return (
                 <Fragment>
-                    <div className="loaderTable">
-                        <CircularProgress  />   
-                    </div>
+                    <TableContainer component={Paper}>
+                        <Table className={`dataTableEmployee`} aria-label="simple table">
+                            <CustomTableHead
+                                classes={classes}
+                                order={order}
+                                orderBy={orderBy}
+                            />
+                            <TableBody>
+                                <TableRow
+                                    hover>
+                                    <TableCell align="center" colSpan={5}>{`No data found !!`}</TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 </Fragment>
             )
         }
@@ -135,7 +156,7 @@ const EmployeeDataTable = ({ employees, filterParams, fetchList }) => {
     return (
         <Fragment>
             {loadContent()}
-            <TablePagination
+            {employees?.data?.length && <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
                 count={employees?.data?.length}
@@ -143,9 +164,9 @@ const EmployeeDataTable = ({ employees, filterParams, fetchList }) => {
                 page={page}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-           {(modal.openState && modal.modalType === 'edit') && <EmployeeModal openModal={modal.openState} modalData={modal.data} handleModal={resetModal}/>}
-           {(modal.openState && modal.modalType === 'delete') && <DeleteModal openModal={modal.openState} modalData={modal.data} handleModal={resetModal}/>}
+            />}
+            {(modal.openState && modal.modalType === 'edit') && <EmployeeModal openModal={modal.openState} modalData={modal.data} handleModal={resetModal} />}
+            {(modal.openState && modal.modalType === 'delete') && <DeleteModal openModal={modal.openState} modalData={modal.data} handleModal={resetModal} />}
         </Fragment>
     )
 };

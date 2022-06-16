@@ -12,6 +12,7 @@ export const modalState = {
 
 export const defaultEmployeeState = {
     data : [],
+    isFetching : false,
     error : false,
     errorMessage : ''
 };
