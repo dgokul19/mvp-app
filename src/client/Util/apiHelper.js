@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import { SERVER_URL } from './constants';
 
 
 export const callApiHelper = async (
@@ -8,7 +9,7 @@ export const callApiHelper = async (
     requestBody,
 ) => {
     const axiosInstance = Axios.create({
-        baseURL: 'http://localhost:8080',
+        baseURL: SERVER_URL.CONNECTION_URL,
     });
 
      axiosInstance.interceptors.request.use((request) => {

@@ -21,3 +21,8 @@ export const defaultEmployeeState = {
     error : false,
     errorMessage : ''
 };
+
+
+export const SERVER_URL = {
+    CONNECTION_URL : 'http://localhost:8080'
+}

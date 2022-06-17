@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Modal, Backdrop, Fade, Button, Card, CircularProgress, List, ListItem, ListItemText } from '@material-ui/core';
 import { HighlightOff, CloudUpload, Search, InsertDriveFile, Close } from '@material-ui/icons';
 
-import { initialUpload } from '../../Util/constants';
+import { initialUpload, SERVER_URL } from '../../Util/constants';
 
 import { useStyles } from './modalStyle';
 
@@ -49,7 +49,7 @@ const UploadCSVModal = ({ openModal, handleModal }) => {
         setUpload({ ...upload,isuploading : true});
         axios({
             method: "post",
-            url: "http://localhost:8080/users/upload",
+            url: `${SERVER_URL.CONNECTION_URL}/users/upload`,
             data: formData,
             headers: { "Content-Type": "multipart/form-data" },
         }).then(response => {
