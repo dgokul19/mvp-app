@@ -1,70 +1,113 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# MVP APP 
 
-## Available Scripts
+MVP is a Simple MERN application used to manage employee details.
 
-In the project directory, you can run:
+## Built in Technologies
 
-### `npm start`
+* Client Side 
+    - React Js
+    - Material UI
+    - Sass
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+* Server Side
+    - Node Js
+    - Express Js
+    - Mongoose
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Getting Started
 
-### `npm test`
+To run the application locally, You need to clone application in to your machine. 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Before started, You need to have 
+    
+    Node ( Mandatory )
+    
+    MongoDB ( Or point your DB connection url in server.js file) in your machine.
 
-### `npm run build`
+- Open the terminal,( Go to preferred location to have your application in local.)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash 
+            1) git clone https://github.com/dgokul19/mvp-app.git
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+            2) cd mvp-app
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+## Installation
 
-### `npm run eject`
+Install mvp-app with npm
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+  npm install
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Usage
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Start your application using following commands
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```bash
+    Node App : npm run server
 
-## Learn More
+    above command should start the node application in 8080 port.  If you need to run the application in any other port 
+    please change in ( server.js file ) with new port number.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+    In case, if you changed the Node Server Port, You have to change the connection URL in following file in client side.
+    
+    src/client/Util/constants.js 
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+    React App: npm start
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+    Your application should be started and run in PORT 3000. ( http://localhost:3000 ).
+```
+## Documentation
+Below features has been covered as part of this application.
 
-### Analyzing the Bundle Size
+- File Upload ( Multiple File )
+- Employee Dashboard ( Pagination, Sorting, Filtering )
+- Employee CRUD Operation.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
+On starting the react application should get you to 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Image 1 : 
 
-### Advanced Configuration
+[![hkibZx.md.png](https://iili.io/hkibZx.md.png)](https://freeimage.host/i/hkibZx)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### 1. File Upload ( CSV file )
 
-### `npm run build` fails to minify
+* You can able to select multiple file.
+* If your file is greater than **2MB** and any other other format than **text/csv**, it will be automatically omitted.
+* Selected file will be shown in the UI. (See Below Image)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Image 2 :
+
+[![hksqZv.md.png](https://iili.io/hksqZv.md.png)](https://freeimage.host/i/hksqZv)
+
+You can able to remove, unwanted files.
+* OnClick Upload button will upload the csv file into database. and the status of uploading will be shown like below image.
+Image 3 :
+
+[![hkszFI.md.png](https://iili.io/hkszFI.md.png)](https://freeimage.host/i/hkszFI).
+
+* If upload is successfully, the employees details in csv file will be automatically reflected in the employees table.
+* In case of error, you will get notified which file is error in the UI.
+
+### 2. Employee Dashboard
+
+*   In default 5 employee record will be displayed in the table, Can able to change in bottom of the table.
+
+*   Supports filtering based on salary range on input field top the table.
+
+### 3. Dashboard CRUD Feature
+
+* Can able to edit name, login, and salary details, employee_id is non editable. On succesful edit, it will be automatically reflects in the UI.
+
+* Can able to delete the record,On succesful edit, it will be automatically reflects in the UI.
+
+## Author
+
+- [@dgokul19](https://www.github.com/dgokul19)
+
