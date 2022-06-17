@@ -15,6 +15,10 @@ MVP is a Simple MERN application used to manage employee details.
     - Express Js
     - Mongoose
 
+
+( Note: Due to Occational api access issue happened in the provided endpoint, I have worked on REST API using node server )
+
+
 ## Getting Started
 
 To run the application locally, You need to clone application in to your machine. 
@@ -100,6 +104,8 @@ Image 3 :
 *   In default 5 employee record will be displayed in the table, Can able to change in bottom of the table.
 
 *   Supports filtering based on salary range on input field top the table.
+
+( Note: For Initial Load of employee details, i have used some mock data from the given endpoint from `beeceptor.com` )
 
 ### 3. Dashboard CRUD Feature
 
