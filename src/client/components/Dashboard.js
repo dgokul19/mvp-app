@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, useLayoutEffect, useRef } from "react";
 import clsx from 'clsx';
 
 import { useTheme } from '@material-ui/core/styles';
@@ -18,6 +18,8 @@ const Dashboard = () => {
     const classes = useStyles();
     const theme = useTheme();
     const [open, setOpen] = useState(true);
+    
+    const refContainer = useRef(null);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -27,8 +29,23 @@ const Dashboard = () => {
         setOpen(false);
     };
 
+    const updateSize = () => {
+        const { clientWidth } = refContainer.current;
+        if(clientWidth < 980) {
+            handleDrawerClose();
+        } else {
+            handleDrawerOpen();
+        }
+    };
+
+    useLayoutEffect(() => {
+        window.addEventListener('resize', updateSize);
+        updateSize();
+        return () => window.removeEventListener('resize', updateSize);
+    }, []);
+
     return (
-        <div className="homeContainer">
+        <div className="homeContainer" ref={refContainer}>
             <AppBar
                 position="fixed"
                 className={clsx(classes.appBar, {

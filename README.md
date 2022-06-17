@@ -79,7 +79,7 @@ Image 1 :
 ### 1. File Upload ( CSV file )
 
 * You can able to select multiple file.
-* If your file is greater than **2MB** and any other other format than **text/csv**, it will be automatically omitted.
+* If your file is greater than **2MB** and any other format than **text/csv**, it will be automatically omitted.
 * Selected file will be shown in the UI. (See Below Image)
 
 Image 2 :
