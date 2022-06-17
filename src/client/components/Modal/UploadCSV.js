@@ -120,8 +120,8 @@ const UploadCSVModal = ({ openModal, handleModal }) => {
                                     <List className="uploadedStatus">
                                         {
                                             upload.data.map(value => (
-                                                <ListItem key={value.file_name} button className={`defaultStatus ${value.error && 'error-info'}`}>
-                                                    <ListItemText primary={`File Name : ${value.file_name}, Upload Status : ${value.error ? value.error : value.message}`} />
+                                                <ListItem key={value.file_name} button className={`defaultStatus ${value?.error && 'error-info'}`}>
+                                                    <ListItemText primary={`File Name : ${value?.file_name}, Upload Status : ${value?.error ? value?.error : value?.message}`} />
                                                 </ListItem>
                                             ))
                                         }

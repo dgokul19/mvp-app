@@ -78,7 +78,6 @@ const validateCsvFiles = async (csvSource, fileDetails) => {
     });
     await Employees.bulkWrite(bulkOps)
         .then(bulkWriteOpResult => {
-            console.log('Bul Update Success', bulkWriteOpResult);
             response.message = `CSV updated Successfully`;
         }).catch(error => {
             console.log('Bull Update Failed', error);
@@ -88,18 +87,19 @@ const validateCsvFiles = async (csvSource, fileDetails) => {
 };
 
 const processCsvFiles = async (file) => {
+    console.log('processCsvFiles ===>', JSON.stringify(file));
     const filePath = path.join(__dirname, `../../../${file.path}`);
+    
 
     return await csv({ noheader: true, trim: true, output: "csv" })
         .fromFile(filePath)
         .then(csvObject => {
-            console.log('csvObject', csvObject);
             return validateCsvFiles(csvObject, file)
         });
 };
 
 const createEmployeeList = async (files, callback) => {
-    const calls = await Promise.allSettled(files.map(file => processCsvFiles(file)))
+    const calls = await Promise.allSettled(files.map(file => processCsvFiles(file)));
     callback(null, calls.map(status => status.value));
 };
 
