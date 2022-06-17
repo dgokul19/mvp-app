@@ -16,7 +16,7 @@ MVP is a Simple MERN application used to manage employee details.
     - Mongoose
 
 
-( Note: Due to Occational api access issue happened in the provided endpoint, I have worked on REST API using node server )
+( Note: Due to frequent api access issue happened in the provided endpoint, I have worked on REST API using node server )
 
 
 ## Getting Started
